@@ -1,4 +1,4 @@
-// Generated from /home/rarks/compilador2/lab02/provided/skeleton/src/decaf/DecafParser.g4 by ANTLR 4.5.3
+// Generated from /home/rarks/Desktop/c/Compiladort/skeleton/src/decaf/DecafParser.g4 by ANTLR 4.5.3
 
 package decaf;
 
