@@ -10,33 +10,49 @@ options
   tokenVocab=DecafLexer;
 }
 
-program: CLASS ID LCURLY field_decl* method_decl* RCURLY;
+program: CLASS PROGRAM LCURLY (var_decl+)* method_decl* RCURLY;
 
-field_decl: (type_id(COMMA type_id)* | type_id LBRACKET int_literal RBRACKET (COMMA type_id LBRACKET int_literal RBRACKET)*) SEMICOLON;
+method_decl: (type | VOID) ID LP ((var_decl)+ SINAL*)? RP block_decl;
 
-method_decl: (type | VOID) ID LP (type_id(COMMA type_id)*)? RP block;
+block_decl: LCURLY var_decl* statement_decl* RCURLY;
+var_decl: type (ID SINAL* )* array_decl? SINAL*;
+array_decl: LBRACKET INTLITERAL RBRACKET;
 
-block: LCURLY var_decl* statement* RCURLY;
-
-var_decl: type_id (COMMA ID)* SEMICOLON;
-
-type_id: type ID (COMMA ID)*;
+type_id: type ID;
 
 type: INTVAR | BOOLEAN;
 
-statement: location assing_op expr SEMICOLON 		| method_call SEMICOLON | IF LP expr RP block (ELSE block)? | FOR ID EQUAL expr COMMA expr block | RETURN expr? SEMICOLON | BREAK SEMICOLON | CONTINUE SEMICOLON | block;
+statement_decl: location_decl assign_op expr_decl RP* SINAL*
+| method_call SINAL* RP* 
+| IF (expr_decl RP* block_decl) (ELSE block_decl)? 
+| FOR ID EQUAL expr_decl RP* SINAL* expr_decl RP* block_decl 
+| RETURN expr_decl? RP* SINAL 
+| BREAK SINAL 
+| CONTINUE SINAL 
+| block_decl;
 
-assing_op: EQUAL | PLUSEQUAL | MINUSEQUAL;
+assign_op: EQUAL | PLUSEQUAL | MINUSEQUAL;
 
-method_call: method_name LP(expr (COMMA expr)*)? RP | CALLOUT LP STRING (COMMA callout_arg(COMMA callout_arg)*)? RP;
+method_call: ID LP expr_decl (SINAL expr_decl)* RP* RP 
+| CALLOUT LP STRING (SINAL* (expr_decl 
+|STRING)+ SINAL* )? RP;
 
 method_name: ID;
 
-location: ID | ID LBRACKET expr RBRACKET;
+location_decl: ID | ID LBRACKET expr_decl RBRACKET;
 
-expr: location | method_call | literal| expr bin_op expr 	| MINUS expr | EXCLAMATION expr | LP expr RP;
+expr_decl: location_decl LP*
+| method_call 
+| identifier_decl 
+| expr_decl bin_op expr_decl 
+| MINUS expr_decl
+| EXCLAMATION expr_decl
+| bin_op expr_decl* 
+| SINAL expr_decl* 
+| RP SINAL
+| LP expr_decl RP;
 
-callout_arg: expr | string_literal;
+identifier_decl: INTLITERAL INTLITERAL* | INTLITERAL | CHAR | BOOLEANLITERAL ;
 
 bin_op: arith_op | rel_op | eq_op | cond_op;
 
@@ -47,25 +63,3 @@ rel_op: LESS | BIGGER | LESSEQ | BIGGEREQ;
 eq_op: EQUALS | DIFFERENT;
 
 cond_op: AND | OR;
-
-literal: int_literal | char_literal | bool_literal;
-
-alpha_num: alpha | digit;
-
-alpha: C;
-
-digit: NUM;
-
-hex_digit: digit | C+;
-
-int_literal: decimal_literal | hex_literal;
-
-decimal_literal: NUM;
-
-hex_literal: HEXLITERAL;
-
-bool_literal: BOOLEANLITERAL;
-
-char_literal: CHAR;
-
-string_literal: STRING;

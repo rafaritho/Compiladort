@@ -19,45 +19,43 @@ public class DecafParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		LCURLY=1, RCURLY=2, LBRACKET=3, RBRACKET=4, LP=5, RP=6, CLASS=7, BOOLEAN=8, 
-		INTVAR=9, VOID=10, IF=11, ELSE=12, FOR=13, RETURN=14, BREAK=15, CALLOUT=16, 
-		CONTINUE=17, BOOLEANLITERAL=18, EXCLAMATION=19, OR=20, EQUAL=21, PLUS=22, 
-		MINUS=23, MULT=24, AND=25, EQUALS=26, DIV=27, MOD=28, PLUSEQUAL=29, MINUSEQUAL=30, 
-		SEMICOLON=31, COMMA=32, COLON=33, LESS=34, BIGGER=35, LESSEQ=36, BIGGEREQ=37, 
-		DIFFERENT=38, ID=39, WS_=40, SL_COMMENT=41, CHAR=42, STRING=43, HEXLITERAL=44, 
-		ERRO_HEX=45, NUM=46, C=47;
+		LCURLY=1, RCURLY=2, LBRACKET=3, RBRACKET=4, LP=5, RP=6, PROGRAM=7, CLASS=8, 
+		SINAL=9, BOOLEAN=10, INTVAR=11, VOID=12, IF=13, ELSE=14, FOR=15, RETURN=16, 
+		BREAK=17, CALLOUT=18, CONTINUE=19, BOOLEANLITERAL=20, EXCLAMATION=21, 
+		OR=22, EQUAL=23, PLUS=24, MINUS=25, MULT=26, AND=27, EQUALS=28, DIV=29, 
+		MOD=30, PLUSEQUAL=31, MINUSEQUAL=32, SEMICOLON=33, COMMA=34, COLON=35, 
+		LESS=36, BIGGER=37, LESSEQ=38, BIGGEREQ=39, DIFFERENT=40, ID=41, INTLITERAL=42, 
+		WS_=43, SL_COMMENT=44, CHAR=45, STRING=46, HEXLITERAL=47, ERRO_HEX=48, 
+		NUM=49, C=50;
 	public static final int
-		RULE_program = 0, RULE_field_decl = 1, RULE_method_decl = 2, RULE_block = 3, 
-		RULE_var_decl = 4, RULE_type_id = 5, RULE_type = 6, RULE_statement = 7, 
-		RULE_assing_op = 8, RULE_method_call = 9, RULE_method_name = 10, RULE_location = 11, 
-		RULE_expr = 12, RULE_callout_arg = 13, RULE_bin_op = 14, RULE_arith_op = 15, 
-		RULE_rel_op = 16, RULE_eq_op = 17, RULE_cond_op = 18, RULE_literal = 19, 
-		RULE_alpha_num = 20, RULE_alpha = 21, RULE_digit = 22, RULE_hex_digit = 23, 
-		RULE_int_literal = 24, RULE_decimal_literal = 25, RULE_hex_literal = 26, 
-		RULE_bool_literal = 27, RULE_char_literal = 28, RULE_string_literal = 29;
+		RULE_program = 0, RULE_method_decl = 1, RULE_block_decl = 2, RULE_var_decl = 3, 
+		RULE_array_decl = 4, RULE_type_id = 5, RULE_type = 6, RULE_statement_decl = 7, 
+		RULE_assign_op = 8, RULE_method_call = 9, RULE_method_name = 10, RULE_location_decl = 11, 
+		RULE_expr_decl = 12, RULE_identifier_decl = 13, RULE_bin_op = 14, RULE_arith_op = 15, 
+		RULE_rel_op = 16, RULE_eq_op = 17, RULE_cond_op = 18;
 	public static final String[] ruleNames = {
-		"program", "field_decl", "method_decl", "block", "var_decl", "type_id", 
-		"type", "statement", "assing_op", "method_call", "method_name", "location", 
-		"expr", "callout_arg", "bin_op", "arith_op", "rel_op", "eq_op", "cond_op", 
-		"literal", "alpha_num", "alpha", "digit", "hex_digit", "int_literal", 
-		"decimal_literal", "hex_literal", "bool_literal", "char_literal", "string_literal"
+		"program", "method_decl", "block_decl", "var_decl", "array_decl", "type_id", 
+		"type", "statement_decl", "assign_op", "method_call", "method_name", "location_decl", 
+		"expr_decl", "identifier_decl", "bin_op", "arith_op", "rel_op", "eq_op", 
+		"cond_op"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'{'", "'}'", "'['", "']'", "'('", "')'", "'class'", "'boolean'", 
-		"'int'", "'void'", "'if'", "'else'", "'for'", "'return'", "'break'", "'callout'", 
-		"'continue'", null, "'!'", "'||'", "'='", "'+'", "'-'", "'*'", "'&&'", 
-		"'=='", "'/'", "'%'", "'+='", "'-='", "';'", "','", "':'", "'<'", "'>'", 
-		"'>='", "'<='", "'!='", null, null, null, null, null, null, "'0x'"
+		null, "'{'", "'}'", "'['", "']'", "'('", "')'", "'Program'", "'class'", 
+		null, "'boolean'", "'int'", "'void'", "'if'", "'else'", "'for'", "'return'", 
+		"'break'", "'callout'", "'continue'", null, "'!'", "'||'", "'='", "'+'", 
+		"'-'", "'*'", "'&&'", "'=='", "'/'", "'%'", "'+='", "'-='", "';'", "','", 
+		"':'", "'<'", "'>'", "'>='", "'<='", "'!='", null, null, null, null, null, 
+		null, null, "'0x'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, "LCURLY", "RCURLY", "LBRACKET", "RBRACKET", "LP", "RP", "CLASS", 
-		"BOOLEAN", "INTVAR", "VOID", "IF", "ELSE", "FOR", "RETURN", "BREAK", "CALLOUT", 
-		"CONTINUE", "BOOLEANLITERAL", "EXCLAMATION", "OR", "EQUAL", "PLUS", "MINUS", 
-		"MULT", "AND", "EQUALS", "DIV", "MOD", "PLUSEQUAL", "MINUSEQUAL", "SEMICOLON", 
-		"COMMA", "COLON", "LESS", "BIGGER", "LESSEQ", "BIGGEREQ", "DIFFERENT", 
-		"ID", "WS_", "SL_COMMENT", "CHAR", "STRING", "HEXLITERAL", "ERRO_HEX", 
-		"NUM", "C"
+		null, "LCURLY", "RCURLY", "LBRACKET", "RBRACKET", "LP", "RP", "PROGRAM", 
+		"CLASS", "SINAL", "BOOLEAN", "INTVAR", "VOID", "IF", "ELSE", "FOR", "RETURN", 
+		"BREAK", "CALLOUT", "CONTINUE", "BOOLEANLITERAL", "EXCLAMATION", "OR", 
+		"EQUAL", "PLUS", "MINUS", "MULT", "AND", "EQUALS", "DIV", "MOD", "PLUSEQUAL", 
+		"MINUSEQUAL", "SEMICOLON", "COMMA", "COLON", "LESS", "BIGGER", "LESSEQ", 
+		"BIGGEREQ", "DIFFERENT", "ID", "INTLITERAL", "WS_", "SL_COMMENT", "CHAR", 
+		"STRING", "HEXLITERAL", "ERRO_HEX", "NUM", "C"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -110,20 +108,20 @@ public class DecafParser extends Parser {
 	}
 	public static class ProgramContext extends ParserRuleContext {
 		public TerminalNode CLASS() { return getToken(DecafParser.CLASS, 0); }
-		public TerminalNode ID() { return getToken(DecafParser.ID, 0); }
+		public TerminalNode PROGRAM() { return getToken(DecafParser.PROGRAM, 0); }
 		public TerminalNode LCURLY() { return getToken(DecafParser.LCURLY, 0); }
 		public TerminalNode RCURLY() { return getToken(DecafParser.RCURLY, 0); }
-		public List<Field_declContext> field_decl() {
-			return getRuleContexts(Field_declContext.class);
-		}
-		public Field_declContext field_decl(int i) {
-			return getRuleContext(Field_declContext.class,i);
-		}
 		public List<Method_declContext> method_decl() {
 			return getRuleContexts(Method_declContext.class);
 		}
 		public Method_declContext method_decl(int i) {
 			return getRuleContext(Method_declContext.class,i);
+		}
+		public List<Var_declContext> var_decl() {
+			return getRuleContexts(Var_declContext.class);
+		}
+		public Var_declContext var_decl(int i) {
+			return getRuleContext(Var_declContext.class,i);
 		}
 		public ProgramContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -147,166 +145,62 @@ public class DecafParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(60);
+			setState(38);
 			match(CLASS);
-			setState(61);
-			match(ID);
-			setState(62);
+			setState(39);
+			match(PROGRAM);
+			setState(40);
 			match(LCURLY);
-			setState(66);
+			setState(48);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,0,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,1,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(63);
-					field_decl();
+					setState(42); 
+					_errHandler.sync(this);
+					_alt = 1;
+					do {
+						switch (_alt) {
+						case 1:
+							{
+							{
+							setState(41);
+							var_decl();
+							}
+							}
+							break;
+						default:
+							throw new NoViableAltException(this);
+						}
+						setState(44); 
+						_errHandler.sync(this);
+						_alt = getInterpreter().adaptivePredict(_input,0,_ctx);
+					} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
 					}
 					} 
 				}
-				setState(68);
+				setState(50);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,0,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,1,_ctx);
 			}
-			setState(72);
+			setState(54);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOOLEAN) | (1L << INTVAR) | (1L << VOID))) != 0)) {
 				{
 				{
-				setState(69);
+				setState(51);
 				method_decl();
 				}
 				}
-				setState(74);
+				setState(56);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(75);
+			setState(57);
 			match(RCURLY);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class Field_declContext extends ParserRuleContext {
-		public TerminalNode SEMICOLON() { return getToken(DecafParser.SEMICOLON, 0); }
-		public List<Type_idContext> type_id() {
-			return getRuleContexts(Type_idContext.class);
-		}
-		public Type_idContext type_id(int i) {
-			return getRuleContext(Type_idContext.class,i);
-		}
-		public List<TerminalNode> LBRACKET() { return getTokens(DecafParser.LBRACKET); }
-		public TerminalNode LBRACKET(int i) {
-			return getToken(DecafParser.LBRACKET, i);
-		}
-		public List<Int_literalContext> int_literal() {
-			return getRuleContexts(Int_literalContext.class);
-		}
-		public Int_literalContext int_literal(int i) {
-			return getRuleContext(Int_literalContext.class,i);
-		}
-		public List<TerminalNode> RBRACKET() { return getTokens(DecafParser.RBRACKET); }
-		public TerminalNode RBRACKET(int i) {
-			return getToken(DecafParser.RBRACKET, i);
-		}
-		public List<TerminalNode> COMMA() { return getTokens(DecafParser.COMMA); }
-		public TerminalNode COMMA(int i) {
-			return getToken(DecafParser.COMMA, i);
-		}
-		public Field_declContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_field_decl; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).enterField_decl(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).exitField_decl(this);
-		}
-	}
-
-	public final Field_declContext field_decl() throws RecognitionException {
-		Field_declContext _localctx = new Field_declContext(_ctx, getState());
-		enterRule(_localctx, 2, RULE_field_decl);
-		int _la;
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(100);
-			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
-			case 1:
-				{
-				setState(77);
-				type_id();
-				setState(82);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				while (_la==COMMA) {
-					{
-					{
-					setState(78);
-					match(COMMA);
-					setState(79);
-					type_id();
-					}
-					}
-					setState(84);
-					_errHandler.sync(this);
-					_la = _input.LA(1);
-				}
-				}
-				break;
-			case 2:
-				{
-				setState(85);
-				type_id();
-				setState(86);
-				match(LBRACKET);
-				setState(87);
-				int_literal();
-				setState(88);
-				match(RBRACKET);
-				setState(97);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				while (_la==COMMA) {
-					{
-					{
-					setState(89);
-					match(COMMA);
-					setState(90);
-					type_id();
-					setState(91);
-					match(LBRACKET);
-					setState(92);
-					int_literal();
-					setState(93);
-					match(RBRACKET);
-					}
-					}
-					setState(99);
-					_errHandler.sync(this);
-					_la = _input.LA(1);
-				}
-				}
-				break;
-			}
-			setState(102);
-			match(SEMICOLON);
 			}
 		}
 		catch (RecognitionException re) {
@@ -324,22 +218,22 @@ public class DecafParser extends Parser {
 		public TerminalNode ID() { return getToken(DecafParser.ID, 0); }
 		public TerminalNode LP() { return getToken(DecafParser.LP, 0); }
 		public TerminalNode RP() { return getToken(DecafParser.RP, 0); }
-		public BlockContext block() {
-			return getRuleContext(BlockContext.class,0);
+		public Block_declContext block_decl() {
+			return getRuleContext(Block_declContext.class,0);
 		}
 		public TypeContext type() {
 			return getRuleContext(TypeContext.class,0);
 		}
 		public TerminalNode VOID() { return getToken(DecafParser.VOID, 0); }
-		public List<Type_idContext> type_id() {
-			return getRuleContexts(Type_idContext.class);
+		public List<Var_declContext> var_decl() {
+			return getRuleContexts(Var_declContext.class);
 		}
-		public Type_idContext type_id(int i) {
-			return getRuleContext(Type_idContext.class,i);
+		public Var_declContext var_decl(int i) {
+			return getRuleContext(Var_declContext.class,i);
 		}
-		public List<TerminalNode> COMMA() { return getTokens(DecafParser.COMMA); }
-		public TerminalNode COMMA(int i) {
-			return getToken(DecafParser.COMMA, i);
+		public List<TerminalNode> SINAL() { return getTokens(DecafParser.SINAL); }
+		public TerminalNode SINAL(int i) {
+			return getToken(DecafParser.SINAL, i);
 		}
 		public Method_declContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -357,62 +251,72 @@ public class DecafParser extends Parser {
 
 	public final Method_declContext method_decl() throws RecognitionException {
 		Method_declContext _localctx = new Method_declContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_method_decl);
+		enterRule(_localctx, 2, RULE_method_decl);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(106);
+			setState(61);
 			switch (_input.LA(1)) {
 			case BOOLEAN:
 			case INTVAR:
 				{
-				setState(104);
+				setState(59);
 				type();
 				}
 				break;
 			case VOID:
 				{
-				setState(105);
+				setState(60);
 				match(VOID);
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
-			setState(108);
+			setState(63);
 			match(ID);
-			setState(109);
+			setState(64);
 			match(LP);
-			setState(118);
+			setState(76);
 			_la = _input.LA(1);
 			if (_la==BOOLEAN || _la==INTVAR) {
 				{
-				setState(110);
-				type_id();
-				setState(115);
+				setState(66); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				while (_la==COMMA) {
+				do {
 					{
 					{
-					setState(111);
-					match(COMMA);
-					setState(112);
-					type_id();
+					setState(65);
+					var_decl();
 					}
 					}
-					setState(117);
+					setState(68); 
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				} while ( _la==BOOLEAN || _la==INTVAR );
+				setState(73);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while (_la==SINAL) {
+					{
+					{
+					setState(70);
+					match(SINAL);
+					}
+					}
+					setState(75);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
 				}
 			}
 
-			setState(120);
+			setState(78);
 			match(RP);
-			setState(121);
-			block();
+			setState(79);
+			block_decl();
 			}
 		}
 		catch (RecognitionException re) {
@@ -426,7 +330,7 @@ public class DecafParser extends Parser {
 		return _localctx;
 	}
 
-	public static class BlockContext extends ParserRuleContext {
+	public static class Block_declContext extends ParserRuleContext {
 		public TerminalNode LCURLY() { return getToken(DecafParser.LCURLY, 0); }
 		public TerminalNode RCURLY() { return getToken(DecafParser.RCURLY, 0); }
 		public List<Var_declContext> var_decl() {
@@ -435,64 +339,64 @@ public class DecafParser extends Parser {
 		public Var_declContext var_decl(int i) {
 			return getRuleContext(Var_declContext.class,i);
 		}
-		public List<StatementContext> statement() {
-			return getRuleContexts(StatementContext.class);
+		public List<Statement_declContext> statement_decl() {
+			return getRuleContexts(Statement_declContext.class);
 		}
-		public StatementContext statement(int i) {
-			return getRuleContext(StatementContext.class,i);
+		public Statement_declContext statement_decl(int i) {
+			return getRuleContext(Statement_declContext.class,i);
 		}
-		public BlockContext(ParserRuleContext parent, int invokingState) {
+		public Block_declContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_block; }
+		@Override public int getRuleIndex() { return RULE_block_decl; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).enterBlock(this);
+			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).enterBlock_decl(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).exitBlock(this);
+			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).exitBlock_decl(this);
 		}
 	}
 
-	public final BlockContext block() throws RecognitionException {
-		BlockContext _localctx = new BlockContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_block);
+	public final Block_declContext block_decl() throws RecognitionException {
+		Block_declContext _localctx = new Block_declContext(_ctx, getState());
+		enterRule(_localctx, 4, RULE_block_decl);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(123);
+			setState(81);
 			match(LCURLY);
-			setState(127);
+			setState(85);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==BOOLEAN || _la==INTVAR) {
 				{
 				{
-				setState(124);
+				setState(82);
 				var_decl();
 				}
 				}
-				setState(129);
+				setState(87);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(133);
+			setState(91);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << LCURLY) | (1L << IF) | (1L << FOR) | (1L << RETURN) | (1L << BREAK) | (1L << CALLOUT) | (1L << CONTINUE) | (1L << ID))) != 0)) {
 				{
 				{
-				setState(130);
-				statement();
+				setState(88);
+				statement_decl();
 				}
 				}
-				setState(135);
+				setState(93);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(136);
+			setState(94);
 			match(RCURLY);
 			}
 		}
@@ -508,17 +412,19 @@ public class DecafParser extends Parser {
 	}
 
 	public static class Var_declContext extends ParserRuleContext {
-		public Type_idContext type_id() {
-			return getRuleContext(Type_idContext.class,0);
-		}
-		public TerminalNode SEMICOLON() { return getToken(DecafParser.SEMICOLON, 0); }
-		public List<TerminalNode> COMMA() { return getTokens(DecafParser.COMMA); }
-		public TerminalNode COMMA(int i) {
-			return getToken(DecafParser.COMMA, i);
+		public TypeContext type() {
+			return getRuleContext(TypeContext.class,0);
 		}
 		public List<TerminalNode> ID() { return getTokens(DecafParser.ID); }
 		public TerminalNode ID(int i) {
 			return getToken(DecafParser.ID, i);
+		}
+		public Array_declContext array_decl() {
+			return getRuleContext(Array_declContext.class,0);
+		}
+		public List<TerminalNode> SINAL() { return getTokens(DecafParser.SINAL); }
+		public TerminalNode SINAL(int i) {
+			return getToken(DecafParser.SINAL, i);
 		}
 		public Var_declContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -536,31 +442,114 @@ public class DecafParser extends Parser {
 
 	public final Var_declContext var_decl() throws RecognitionException {
 		Var_declContext _localctx = new Var_declContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_var_decl);
+		enterRule(_localctx, 6, RULE_var_decl);
 		int _la;
+		try {
+			int _alt;
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(96);
+			type();
+			setState(106);
+			_errHandler.sync(this);
+			_alt = getInterpreter().adaptivePredict(_input,10,_ctx);
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1 ) {
+					{
+					{
+					setState(97);
+					match(ID);
+					setState(101);
+					_errHandler.sync(this);
+					_alt = getInterpreter().adaptivePredict(_input,9,_ctx);
+					while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+						if ( _alt==1 ) {
+							{
+							{
+							setState(98);
+							match(SINAL);
+							}
+							} 
+						}
+						setState(103);
+						_errHandler.sync(this);
+						_alt = getInterpreter().adaptivePredict(_input,9,_ctx);
+					}
+					}
+					} 
+				}
+				setState(108);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,10,_ctx);
+			}
+			setState(110);
+			_la = _input.LA(1);
+			if (_la==LBRACKET) {
+				{
+				setState(109);
+				array_decl();
+				}
+			}
+
+			setState(115);
+			_errHandler.sync(this);
+			_alt = getInterpreter().adaptivePredict(_input,12,_ctx);
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1 ) {
+					{
+					{
+					setState(112);
+					match(SINAL);
+					}
+					} 
+				}
+				setState(117);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,12,_ctx);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class Array_declContext extends ParserRuleContext {
+		public TerminalNode LBRACKET() { return getToken(DecafParser.LBRACKET, 0); }
+		public TerminalNode INTLITERAL() { return getToken(DecafParser.INTLITERAL, 0); }
+		public TerminalNode RBRACKET() { return getToken(DecafParser.RBRACKET, 0); }
+		public Array_declContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_array_decl; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).enterArray_decl(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).exitArray_decl(this);
+		}
+	}
+
+	public final Array_declContext array_decl() throws RecognitionException {
+		Array_declContext _localctx = new Array_declContext(_ctx, getState());
+		enterRule(_localctx, 8, RULE_array_decl);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(138);
-			type_id();
-			setState(143);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while (_la==COMMA) {
-				{
-				{
-				setState(139);
-				match(COMMA);
-				setState(140);
-				match(ID);
-				}
-				}
-				setState(145);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
-			setState(146);
-			match(SEMICOLON);
+			setState(118);
+			match(LBRACKET);
+			setState(119);
+			match(INTLITERAL);
+			setState(120);
+			match(RBRACKET);
 			}
 		}
 		catch (RecognitionException re) {
@@ -578,14 +567,7 @@ public class DecafParser extends Parser {
 		public TypeContext type() {
 			return getRuleContext(TypeContext.class,0);
 		}
-		public List<TerminalNode> ID() { return getTokens(DecafParser.ID); }
-		public TerminalNode ID(int i) {
-			return getToken(DecafParser.ID, i);
-		}
-		public List<TerminalNode> COMMA() { return getTokens(DecafParser.COMMA); }
-		public TerminalNode COMMA(int i) {
-			return getToken(DecafParser.COMMA, i);
-		}
+		public TerminalNode ID() { return getToken(DecafParser.ID, 0); }
 		public Type_idContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -604,31 +586,12 @@ public class DecafParser extends Parser {
 		Type_idContext _localctx = new Type_idContext(_ctx, getState());
 		enterRule(_localctx, 10, RULE_type_id);
 		try {
-			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(148);
+			setState(122);
 			type();
-			setState(149);
+			setState(123);
 			match(ID);
-			setState(154);
-			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,11,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
-				if ( _alt==1 ) {
-					{
-					{
-					setState(150);
-					match(COMMA);
-					setState(151);
-					match(ID);
-					}
-					} 
-				}
-				setState(156);
-				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,11,_ctx);
-			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -666,7 +629,7 @@ public class DecafParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(157);
+			setState(125);
 			_la = _input.LA(1);
 			if ( !(_la==BOOLEAN || _la==INTVAR) ) {
 			_errHandler.recoverInline(this);
@@ -686,105 +649,174 @@ public class DecafParser extends Parser {
 		return _localctx;
 	}
 
-	public static class StatementContext extends ParserRuleContext {
-		public LocationContext location() {
-			return getRuleContext(LocationContext.class,0);
+	public static class Statement_declContext extends ParserRuleContext {
+		public Location_declContext location_decl() {
+			return getRuleContext(Location_declContext.class,0);
 		}
-		public Assing_opContext assing_op() {
-			return getRuleContext(Assing_opContext.class,0);
+		public Assign_opContext assign_op() {
+			return getRuleContext(Assign_opContext.class,0);
 		}
-		public List<ExprContext> expr() {
-			return getRuleContexts(ExprContext.class);
+		public List<Expr_declContext> expr_decl() {
+			return getRuleContexts(Expr_declContext.class);
 		}
-		public ExprContext expr(int i) {
-			return getRuleContext(ExprContext.class,i);
+		public Expr_declContext expr_decl(int i) {
+			return getRuleContext(Expr_declContext.class,i);
 		}
-		public TerminalNode SEMICOLON() { return getToken(DecafParser.SEMICOLON, 0); }
+		public List<TerminalNode> RP() { return getTokens(DecafParser.RP); }
+		public TerminalNode RP(int i) {
+			return getToken(DecafParser.RP, i);
+		}
+		public List<TerminalNode> SINAL() { return getTokens(DecafParser.SINAL); }
+		public TerminalNode SINAL(int i) {
+			return getToken(DecafParser.SINAL, i);
+		}
 		public Method_callContext method_call() {
 			return getRuleContext(Method_callContext.class,0);
 		}
 		public TerminalNode IF() { return getToken(DecafParser.IF, 0); }
-		public TerminalNode LP() { return getToken(DecafParser.LP, 0); }
-		public TerminalNode RP() { return getToken(DecafParser.RP, 0); }
-		public List<BlockContext> block() {
-			return getRuleContexts(BlockContext.class);
+		public List<Block_declContext> block_decl() {
+			return getRuleContexts(Block_declContext.class);
 		}
-		public BlockContext block(int i) {
-			return getRuleContext(BlockContext.class,i);
+		public Block_declContext block_decl(int i) {
+			return getRuleContext(Block_declContext.class,i);
 		}
 		public TerminalNode ELSE() { return getToken(DecafParser.ELSE, 0); }
 		public TerminalNode FOR() { return getToken(DecafParser.FOR, 0); }
 		public TerminalNode ID() { return getToken(DecafParser.ID, 0); }
 		public TerminalNode EQUAL() { return getToken(DecafParser.EQUAL, 0); }
-		public TerminalNode COMMA() { return getToken(DecafParser.COMMA, 0); }
 		public TerminalNode RETURN() { return getToken(DecafParser.RETURN, 0); }
 		public TerminalNode BREAK() { return getToken(DecafParser.BREAK, 0); }
 		public TerminalNode CONTINUE() { return getToken(DecafParser.CONTINUE, 0); }
-		public StatementContext(ParserRuleContext parent, int invokingState) {
+		public Statement_declContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_statement; }
+		@Override public int getRuleIndex() { return RULE_statement_decl; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).enterStatement(this);
+			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).enterStatement_decl(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).exitStatement(this);
+			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).exitStatement_decl(this);
 		}
 	}
 
-	public final StatementContext statement() throws RecognitionException {
-		StatementContext _localctx = new StatementContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_statement);
+	public final Statement_declContext statement_decl() throws RecognitionException {
+		Statement_declContext _localctx = new Statement_declContext(_ctx, getState());
+		enterRule(_localctx, 14, RULE_statement_decl);
 		int _la;
 		try {
-			setState(194);
+			int _alt;
+			setState(210);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,14,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,24,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(159);
-				location();
-				setState(160);
-				assing_op();
-				setState(161);
-				expr(0);
-				setState(162);
-				match(SEMICOLON);
+				setState(127);
+				location_decl();
+				setState(128);
+				assign_op();
+				setState(129);
+				expr_decl(0);
+				setState(133);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while (_la==RP) {
+					{
+					{
+					setState(130);
+					match(RP);
+					}
+					}
+					setState(135);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
+				setState(139);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while (_la==SINAL) {
+					{
+					{
+					setState(136);
+					match(SINAL);
+					}
+					}
+					setState(141);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(164);
+				setState(142);
 				method_call();
-				setState(165);
-				match(SEMICOLON);
+				setState(146);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while (_la==SINAL) {
+					{
+					{
+					setState(143);
+					match(SINAL);
+					}
+					}
+					setState(148);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
+				setState(152);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while (_la==RP) {
+					{
+					{
+					setState(149);
+					match(RP);
+					}
+					}
+					setState(154);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(167);
+				setState(155);
 				match(IF);
-				setState(168);
-				match(LP);
-				setState(169);
-				expr(0);
-				setState(170);
-				match(RP);
-				setState(171);
-				block();
-				setState(174);
+				{
+				setState(156);
+				expr_decl(0);
+				setState(160);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while (_la==RP) {
+					{
+					{
+					setState(157);
+					match(RP);
+					}
+					}
+					setState(162);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
+				setState(163);
+				block_decl();
+				}
+				setState(167);
 				_la = _input.LA(1);
 				if (_la==ELSE) {
 					{
-					setState(172);
+					setState(165);
 					match(ELSE);
-					setState(173);
-					block();
+					setState(166);
+					block_decl();
 					}
 				}
 
@@ -793,63 +825,122 @@ public class DecafParser extends Parser {
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(176);
+				setState(169);
 				match(FOR);
-				setState(177);
+				setState(170);
 				match(ID);
-				setState(178);
+				setState(171);
 				match(EQUAL);
-				setState(179);
-				expr(0);
-				setState(180);
-				match(COMMA);
-				setState(181);
-				expr(0);
+				setState(172);
+				expr_decl(0);
+				setState(176);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,19,_ctx);
+				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+					if ( _alt==1 ) {
+						{
+						{
+						setState(173);
+						match(RP);
+						}
+						} 
+					}
+					setState(178);
+					_errHandler.sync(this);
+					_alt = getInterpreter().adaptivePredict(_input,19,_ctx);
+				}
 				setState(182);
-				block();
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,20,_ctx);
+				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+					if ( _alt==1 ) {
+						{
+						{
+						setState(179);
+						match(SINAL);
+						}
+						} 
+					}
+					setState(184);
+					_errHandler.sync(this);
+					_alt = getInterpreter().adaptivePredict(_input,20,_ctx);
+				}
+				setState(185);
+				expr_decl(0);
+				setState(189);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while (_la==RP) {
+					{
+					{
+					setState(186);
+					match(RP);
+					}
+					}
+					setState(191);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
+				setState(192);
+				block_decl();
 				}
 				break;
 			case 5:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(184);
+				setState(194);
 				match(RETURN);
-				setState(186);
-				_la = _input.LA(1);
-				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << LP) | (1L << CALLOUT) | (1L << BOOLEANLITERAL) | (1L << EXCLAMATION) | (1L << MINUS) | (1L << ID) | (1L << CHAR) | (1L << HEXLITERAL) | (1L << NUM))) != 0)) {
+				setState(196);
+				_errHandler.sync(this);
+				switch ( getInterpreter().adaptivePredict(_input,22,_ctx) ) {
+				case 1:
 					{
-					setState(185);
-					expr(0);
+					setState(195);
+					expr_decl(0);
 					}
+					break;
 				}
-
-				setState(188);
-				match(SEMICOLON);
+				setState(201);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while (_la==RP) {
+					{
+					{
+					setState(198);
+					match(RP);
+					}
+					}
+					setState(203);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
+				setState(204);
+				match(SINAL);
 				}
 				break;
 			case 6:
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(189);
+				setState(205);
 				match(BREAK);
-				setState(190);
-				match(SEMICOLON);
+				setState(206);
+				match(SINAL);
 				}
 				break;
 			case 7:
 				enterOuterAlt(_localctx, 7);
 				{
-				setState(191);
+				setState(207);
 				match(CONTINUE);
-				setState(192);
-				match(SEMICOLON);
+				setState(208);
+				match(SINAL);
 				}
 				break;
 			case 8:
 				enterOuterAlt(_localctx, 8);
 				{
-				setState(193);
-				block();
+				setState(209);
+				block_decl();
 				}
 				break;
 			}
@@ -865,32 +956,32 @@ public class DecafParser extends Parser {
 		return _localctx;
 	}
 
-	public static class Assing_opContext extends ParserRuleContext {
+	public static class Assign_opContext extends ParserRuleContext {
 		public TerminalNode EQUAL() { return getToken(DecafParser.EQUAL, 0); }
 		public TerminalNode PLUSEQUAL() { return getToken(DecafParser.PLUSEQUAL, 0); }
 		public TerminalNode MINUSEQUAL() { return getToken(DecafParser.MINUSEQUAL, 0); }
-		public Assing_opContext(ParserRuleContext parent, int invokingState) {
+		public Assign_opContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_assing_op; }
+		@Override public int getRuleIndex() { return RULE_assign_op; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).enterAssing_op(this);
+			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).enterAssign_op(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).exitAssing_op(this);
+			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).exitAssign_op(this);
 		}
 	}
 
-	public final Assing_opContext assing_op() throws RecognitionException {
-		Assing_opContext _localctx = new Assing_opContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_assing_op);
+	public final Assign_opContext assign_op() throws RecognitionException {
+		Assign_opContext _localctx = new Assign_opContext(_ctx, getState());
+		enterRule(_localctx, 16, RULE_assign_op);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(196);
+			setState(212);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << EQUAL) | (1L << PLUSEQUAL) | (1L << MINUSEQUAL))) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -911,28 +1002,26 @@ public class DecafParser extends Parser {
 	}
 
 	public static class Method_callContext extends ParserRuleContext {
-		public Method_nameContext method_name() {
-			return getRuleContext(Method_nameContext.class,0);
-		}
+		public TerminalNode ID() { return getToken(DecafParser.ID, 0); }
 		public TerminalNode LP() { return getToken(DecafParser.LP, 0); }
-		public TerminalNode RP() { return getToken(DecafParser.RP, 0); }
-		public List<ExprContext> expr() {
-			return getRuleContexts(ExprContext.class);
+		public List<Expr_declContext> expr_decl() {
+			return getRuleContexts(Expr_declContext.class);
 		}
-		public ExprContext expr(int i) {
-			return getRuleContext(ExprContext.class,i);
+		public Expr_declContext expr_decl(int i) {
+			return getRuleContext(Expr_declContext.class,i);
 		}
-		public List<TerminalNode> COMMA() { return getTokens(DecafParser.COMMA); }
-		public TerminalNode COMMA(int i) {
-			return getToken(DecafParser.COMMA, i);
+		public List<TerminalNode> RP() { return getTokens(DecafParser.RP); }
+		public TerminalNode RP(int i) {
+			return getToken(DecafParser.RP, i);
+		}
+		public List<TerminalNode> SINAL() { return getTokens(DecafParser.SINAL); }
+		public TerminalNode SINAL(int i) {
+			return getToken(DecafParser.SINAL, i);
 		}
 		public TerminalNode CALLOUT() { return getToken(DecafParser.CALLOUT, 0); }
-		public TerminalNode STRING() { return getToken(DecafParser.STRING, 0); }
-		public List<Callout_argContext> callout_arg() {
-			return getRuleContexts(Callout_argContext.class);
-		}
-		public Callout_argContext callout_arg(int i) {
-			return getRuleContext(Callout_argContext.class,i);
+		public List<TerminalNode> STRING() { return getTokens(DecafParser.STRING); }
+		public TerminalNode STRING(int i) {
+			return getToken(DecafParser.STRING, i);
 		}
 		public Method_callContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -953,81 +1042,156 @@ public class DecafParser extends Parser {
 		enterRule(_localctx, 18, RULE_method_call);
 		int _la;
 		try {
-			setState(227);
+			int _alt;
+			setState(256);
 			switch (_input.LA(1)) {
 			case ID:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(198);
-				method_name();
-				setState(199);
+				setState(214);
+				match(ID);
+				setState(215);
 				match(LP);
-				setState(208);
+				setState(216);
+				expr_decl(0);
+				setState(221);
+				_errHandler.sync(this);
 				_la = _input.LA(1);
-				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << LP) | (1L << CALLOUT) | (1L << BOOLEANLITERAL) | (1L << EXCLAMATION) | (1L << MINUS) | (1L << ID) | (1L << CHAR) | (1L << HEXLITERAL) | (1L << NUM))) != 0)) {
+				while (_la==SINAL) {
 					{
-					setState(200);
-					expr(0);
-					setState(205);
+					{
+					setState(217);
+					match(SINAL);
+					setState(218);
+					expr_decl(0);
+					}
+					}
+					setState(223);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
-					while (_la==COMMA) {
-						{
-						{
-						setState(201);
-						match(COMMA);
-						setState(202);
-						expr(0);
-						}
-						}
-						setState(207);
-						_errHandler.sync(this);
-						_la = _input.LA(1);
-					}
-					}
 				}
-
-				setState(210);
+				setState(227);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,26,_ctx);
+				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+					if ( _alt==1 ) {
+						{
+						{
+						setState(224);
+						match(RP);
+						}
+						} 
+					}
+					setState(229);
+					_errHandler.sync(this);
+					_alt = getInterpreter().adaptivePredict(_input,26,_ctx);
+				}
+				setState(230);
 				match(RP);
 				}
 				break;
 			case CALLOUT:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(212);
+				setState(232);
 				match(CALLOUT);
-				setState(213);
+				setState(233);
 				match(LP);
-				setState(214);
+				setState(234);
 				match(STRING);
-				setState(224);
-				_la = _input.LA(1);
-				if (_la==COMMA) {
+				setState(253);
+				_errHandler.sync(this);
+				switch ( getInterpreter().adaptivePredict(_input,31,_ctx) ) {
+				case 1:
 					{
-					setState(215);
-					match(COMMA);
-					setState(216);
-					callout_arg();
-					setState(221);
+					setState(238);
+					_errHandler.sync(this);
+					_alt = getInterpreter().adaptivePredict(_input,27,_ctx);
+					while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+						if ( _alt==1 ) {
+							{
+							{
+							setState(235);
+							match(SINAL);
+							}
+							} 
+						}
+						setState(240);
+						_errHandler.sync(this);
+						_alt = getInterpreter().adaptivePredict(_input,27,_ctx);
+					}
+					setState(243); 
+					_errHandler.sync(this);
+					_alt = 1;
+					do {
+						switch (_alt) {
+						case 1:
+							{
+							setState(243);
+							switch (_input.LA(1)) {
+							case LP:
+							case RP:
+							case SINAL:
+							case CALLOUT:
+							case BOOLEANLITERAL:
+							case EXCLAMATION:
+							case OR:
+							case PLUS:
+							case MINUS:
+							case MULT:
+							case AND:
+							case EQUALS:
+							case DIV:
+							case MOD:
+							case LESS:
+							case BIGGER:
+							case LESSEQ:
+							case BIGGEREQ:
+							case DIFFERENT:
+							case ID:
+							case INTLITERAL:
+							case CHAR:
+								{
+								setState(241);
+								expr_decl(0);
+								}
+								break;
+							case STRING:
+								{
+								setState(242);
+								match(STRING);
+								}
+								break;
+							default:
+								throw new NoViableAltException(this);
+							}
+							}
+							break;
+						default:
+							throw new NoViableAltException(this);
+						}
+						setState(245); 
+						_errHandler.sync(this);
+						_alt = getInterpreter().adaptivePredict(_input,29,_ctx);
+					} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
+					setState(250);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
-					while (_la==COMMA) {
+					while (_la==SINAL) {
 						{
 						{
-						setState(217);
-						match(COMMA);
-						setState(218);
-						callout_arg();
+						setState(247);
+						match(SINAL);
 						}
 						}
-						setState(223);
+						setState(252);
 						_errHandler.sync(this);
 						_la = _input.LA(1);
 					}
 					}
+					break;
 				}
-
-				setState(226);
+				setState(255);
 				match(RP);
 				}
 				break;
@@ -1068,7 +1232,7 @@ public class DecafParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(229);
+			setState(258);
 			match(ID);
 			}
 		}
@@ -1083,51 +1247,51 @@ public class DecafParser extends Parser {
 		return _localctx;
 	}
 
-	public static class LocationContext extends ParserRuleContext {
+	public static class Location_declContext extends ParserRuleContext {
 		public TerminalNode ID() { return getToken(DecafParser.ID, 0); }
 		public TerminalNode LBRACKET() { return getToken(DecafParser.LBRACKET, 0); }
-		public ExprContext expr() {
-			return getRuleContext(ExprContext.class,0);
+		public Expr_declContext expr_decl() {
+			return getRuleContext(Expr_declContext.class,0);
 		}
 		public TerminalNode RBRACKET() { return getToken(DecafParser.RBRACKET, 0); }
-		public LocationContext(ParserRuleContext parent, int invokingState) {
+		public Location_declContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_location; }
+		@Override public int getRuleIndex() { return RULE_location_decl; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).enterLocation(this);
+			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).enterLocation_decl(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).exitLocation(this);
+			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).exitLocation_decl(this);
 		}
 	}
 
-	public final LocationContext location() throws RecognitionException {
-		LocationContext _localctx = new LocationContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_location);
+	public final Location_declContext location_decl() throws RecognitionException {
+		Location_declContext _localctx = new Location_declContext(_ctx, getState());
+		enterRule(_localctx, 22, RULE_location_decl);
 		try {
-			setState(237);
+			setState(266);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,20,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,33,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(231);
+				setState(260);
 				match(ID);
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(232);
+				setState(261);
 				match(ID);
-				setState(233);
+				setState(262);
 				match(LBRACKET);
-				setState(234);
-				expr(0);
-				setState(235);
+				setState(263);
+				expr_decl(0);
+				setState(264);
 				match(RBRACKET);
 				}
 				break;
@@ -1144,130 +1308,202 @@ public class DecafParser extends Parser {
 		return _localctx;
 	}
 
-	public static class ExprContext extends ParserRuleContext {
-		public LocationContext location() {
-			return getRuleContext(LocationContext.class,0);
+	public static class Expr_declContext extends ParserRuleContext {
+		public Location_declContext location_decl() {
+			return getRuleContext(Location_declContext.class,0);
+		}
+		public List<TerminalNode> LP() { return getTokens(DecafParser.LP); }
+		public TerminalNode LP(int i) {
+			return getToken(DecafParser.LP, i);
 		}
 		public Method_callContext method_call() {
 			return getRuleContext(Method_callContext.class,0);
 		}
-		public LiteralContext literal() {
-			return getRuleContext(LiteralContext.class,0);
+		public Identifier_declContext identifier_decl() {
+			return getRuleContext(Identifier_declContext.class,0);
 		}
 		public TerminalNode MINUS() { return getToken(DecafParser.MINUS, 0); }
-		public List<ExprContext> expr() {
-			return getRuleContexts(ExprContext.class);
+		public List<Expr_declContext> expr_decl() {
+			return getRuleContexts(Expr_declContext.class);
 		}
-		public ExprContext expr(int i) {
-			return getRuleContext(ExprContext.class,i);
+		public Expr_declContext expr_decl(int i) {
+			return getRuleContext(Expr_declContext.class,i);
 		}
 		public TerminalNode EXCLAMATION() { return getToken(DecafParser.EXCLAMATION, 0); }
-		public TerminalNode LP() { return getToken(DecafParser.LP, 0); }
-		public TerminalNode RP() { return getToken(DecafParser.RP, 0); }
 		public Bin_opContext bin_op() {
 			return getRuleContext(Bin_opContext.class,0);
 		}
-		public ExprContext(ParserRuleContext parent, int invokingState) {
+		public TerminalNode SINAL() { return getToken(DecafParser.SINAL, 0); }
+		public TerminalNode RP() { return getToken(DecafParser.RP, 0); }
+		public Expr_declContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_expr; }
+		@Override public int getRuleIndex() { return RULE_expr_decl; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).enterExpr(this);
+			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).enterExpr_decl(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).exitExpr(this);
+			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).exitExpr_decl(this);
 		}
 	}
 
-	public final ExprContext expr() throws RecognitionException {
-		return expr(0);
+	public final Expr_declContext expr_decl() throws RecognitionException {
+		return expr_decl(0);
 	}
 
-	private ExprContext expr(int _p) throws RecognitionException {
+	private Expr_declContext expr_decl(int _p) throws RecognitionException {
 		ParserRuleContext _parentctx = _ctx;
 		int _parentState = getState();
-		ExprContext _localctx = new ExprContext(_ctx, _parentState);
-		ExprContext _prevctx = _localctx;
+		Expr_declContext _localctx = new Expr_declContext(_ctx, _parentState);
+		Expr_declContext _prevctx = _localctx;
 		int _startState = 24;
-		enterRecursionRule(_localctx, 24, RULE_expr, _p);
+		enterRecursionRule(_localctx, 24, RULE_expr_decl, _p);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(251);
+			setState(302);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,21,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,37,_ctx) ) {
 			case 1:
 				{
-				setState(240);
-				location();
+				setState(269);
+				location_decl();
+				setState(273);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,34,_ctx);
+				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+					if ( _alt==1 ) {
+						{
+						{
+						setState(270);
+						match(LP);
+						}
+						} 
+					}
+					setState(275);
+					_errHandler.sync(this);
+					_alt = getInterpreter().adaptivePredict(_input,34,_ctx);
+				}
 				}
 				break;
 			case 2:
 				{
-				setState(241);
+				setState(276);
 				method_call();
 				}
 				break;
 			case 3:
 				{
-				setState(242);
-				literal();
+				setState(277);
+				identifier_decl();
 				}
 				break;
 			case 4:
 				{
-				setState(243);
+				setState(278);
 				match(MINUS);
-				setState(244);
-				expr(3);
+				setState(279);
+				expr_decl(6);
 				}
 				break;
 			case 5:
 				{
-				setState(245);
+				setState(280);
 				match(EXCLAMATION);
-				setState(246);
-				expr(2);
+				setState(281);
+				expr_decl(5);
 				}
 				break;
 			case 6:
 				{
-				setState(247);
+				setState(282);
+				bin_op();
+				setState(286);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,35,_ctx);
+				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+					if ( _alt==1 ) {
+						{
+						{
+						setState(283);
+						expr_decl(0);
+						}
+						} 
+					}
+					setState(288);
+					_errHandler.sync(this);
+					_alt = getInterpreter().adaptivePredict(_input,35,_ctx);
+				}
+				}
+				break;
+			case 7:
+				{
+				setState(289);
+				match(SINAL);
+				setState(293);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,36,_ctx);
+				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+					if ( _alt==1 ) {
+						{
+						{
+						setState(290);
+						expr_decl(0);
+						}
+						} 
+					}
+					setState(295);
+					_errHandler.sync(this);
+					_alt = getInterpreter().adaptivePredict(_input,36,_ctx);
+				}
+				}
+				break;
+			case 8:
+				{
+				setState(296);
+				match(RP);
+				setState(297);
+				match(SINAL);
+				}
+				break;
+			case 9:
+				{
+				setState(298);
 				match(LP);
-				setState(248);
-				expr(0);
-				setState(249);
+				setState(299);
+				expr_decl(0);
+				setState(300);
 				match(RP);
 				}
 				break;
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(259);
+			setState(310);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,22,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,38,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
 					{
-					_localctx = new ExprContext(_parentctx, _parentState);
-					pushNewRecursionContext(_localctx, _startState, RULE_expr);
-					setState(253);
-					if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
-					setState(254);
+					_localctx = new Expr_declContext(_parentctx, _parentState);
+					pushNewRecursionContext(_localctx, _startState, RULE_expr_decl);
+					setState(304);
+					if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
+					setState(305);
 					bin_op();
-					setState(255);
-					expr(5);
+					setState(306);
+					expr_decl(8);
 					}
 					} 
 				}
-				setState(261);
+				setState(312);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,22,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,38,_ctx);
 			}
 			}
 		}
@@ -1282,57 +1518,79 @@ public class DecafParser extends Parser {
 		return _localctx;
 	}
 
-	public static class Callout_argContext extends ParserRuleContext {
-		public ExprContext expr() {
-			return getRuleContext(ExprContext.class,0);
+	public static class Identifier_declContext extends ParserRuleContext {
+		public List<TerminalNode> INTLITERAL() { return getTokens(DecafParser.INTLITERAL); }
+		public TerminalNode INTLITERAL(int i) {
+			return getToken(DecafParser.INTLITERAL, i);
 		}
-		public String_literalContext string_literal() {
-			return getRuleContext(String_literalContext.class,0);
-		}
-		public Callout_argContext(ParserRuleContext parent, int invokingState) {
+		public TerminalNode CHAR() { return getToken(DecafParser.CHAR, 0); }
+		public TerminalNode BOOLEANLITERAL() { return getToken(DecafParser.BOOLEANLITERAL, 0); }
+		public Identifier_declContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_callout_arg; }
+		@Override public int getRuleIndex() { return RULE_identifier_decl; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).enterCallout_arg(this);
+			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).enterIdentifier_decl(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).exitCallout_arg(this);
+			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).exitIdentifier_decl(this);
 		}
 	}
 
-	public final Callout_argContext callout_arg() throws RecognitionException {
-		Callout_argContext _localctx = new Callout_argContext(_ctx, getState());
-		enterRule(_localctx, 26, RULE_callout_arg);
+	public final Identifier_declContext identifier_decl() throws RecognitionException {
+		Identifier_declContext _localctx = new Identifier_declContext(_ctx, getState());
+		enterRule(_localctx, 26, RULE_identifier_decl);
 		try {
-			setState(264);
-			switch (_input.LA(1)) {
-			case LP:
-			case CALLOUT:
-			case BOOLEANLITERAL:
-			case EXCLAMATION:
-			case MINUS:
-			case ID:
-			case CHAR:
-			case HEXLITERAL:
-			case NUM:
+			int _alt;
+			setState(323);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,40,_ctx) ) {
+			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(262);
-				expr(0);
+				setState(313);
+				match(INTLITERAL);
+				setState(317);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,39,_ctx);
+				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+					if ( _alt==1 ) {
+						{
+						{
+						setState(314);
+						match(INTLITERAL);
+						}
+						} 
+					}
+					setState(319);
+					_errHandler.sync(this);
+					_alt = getInterpreter().adaptivePredict(_input,39,_ctx);
+				}
 				}
 				break;
-			case STRING:
+			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(263);
-				string_literal();
+				setState(320);
+				match(INTLITERAL);
 				}
 				break;
-			default:
-				throw new NoViableAltException(this);
+			case 3:
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(321);
+				match(CHAR);
+				}
+				break;
+			case 4:
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(322);
+				match(BOOLEANLITERAL);
+				}
+				break;
 			}
 		}
 		catch (RecognitionException re) {
@@ -1377,7 +1635,7 @@ public class DecafParser extends Parser {
 		Bin_opContext _localctx = new Bin_opContext(_ctx, getState());
 		enterRule(_localctx, 28, RULE_bin_op);
 		try {
-			setState(270);
+			setState(329);
 			switch (_input.LA(1)) {
 			case PLUS:
 			case MINUS:
@@ -1386,7 +1644,7 @@ public class DecafParser extends Parser {
 			case MOD:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(266);
+				setState(325);
 				arith_op();
 				}
 				break;
@@ -1396,7 +1654,7 @@ public class DecafParser extends Parser {
 			case BIGGEREQ:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(267);
+				setState(326);
 				rel_op();
 				}
 				break;
@@ -1404,7 +1662,7 @@ public class DecafParser extends Parser {
 			case DIFFERENT:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(268);
+				setState(327);
 				eq_op();
 				}
 				break;
@@ -1412,7 +1670,7 @@ public class DecafParser extends Parser {
 			case AND:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(269);
+				setState(328);
 				cond_op();
 				}
 				break;
@@ -1458,7 +1716,7 @@ public class DecafParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(272);
+			setState(331);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PLUS) | (1L << MINUS) | (1L << MULT) | (1L << DIV) | (1L << MOD))) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -1504,7 +1762,7 @@ public class DecafParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(274);
+			setState(333);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << LESS) | (1L << BIGGER) | (1L << LESSEQ) | (1L << BIGGEREQ))) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -1548,7 +1806,7 @@ public class DecafParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(276);
+			setState(335);
 			_la = _input.LA(1);
 			if ( !(_la==EQUALS || _la==DIFFERENT) ) {
 			_errHandler.recoverInline(this);
@@ -1592,7 +1850,7 @@ public class DecafParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(278);
+			setState(337);
 			_la = _input.LA(1);
 			if ( !(_la==OR || _la==AND) ) {
 			_errHandler.recoverInline(this);
@@ -1612,638 +1870,147 @@ public class DecafParser extends Parser {
 		return _localctx;
 	}
 
-	public static class LiteralContext extends ParserRuleContext {
-		public Int_literalContext int_literal() {
-			return getRuleContext(Int_literalContext.class,0);
-		}
-		public Char_literalContext char_literal() {
-			return getRuleContext(Char_literalContext.class,0);
-		}
-		public Bool_literalContext bool_literal() {
-			return getRuleContext(Bool_literalContext.class,0);
-		}
-		public LiteralContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_literal; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).enterLiteral(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).exitLiteral(this);
-		}
-	}
-
-	public final LiteralContext literal() throws RecognitionException {
-		LiteralContext _localctx = new LiteralContext(_ctx, getState());
-		enterRule(_localctx, 38, RULE_literal);
-		try {
-			setState(283);
-			switch (_input.LA(1)) {
-			case HEXLITERAL:
-			case NUM:
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(280);
-				int_literal();
-				}
-				break;
-			case CHAR:
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(281);
-				char_literal();
-				}
-				break;
-			case BOOLEANLITERAL:
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(282);
-				bool_literal();
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class Alpha_numContext extends ParserRuleContext {
-		public AlphaContext alpha() {
-			return getRuleContext(AlphaContext.class,0);
-		}
-		public DigitContext digit() {
-			return getRuleContext(DigitContext.class,0);
-		}
-		public Alpha_numContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_alpha_num; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).enterAlpha_num(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).exitAlpha_num(this);
-		}
-	}
-
-	public final Alpha_numContext alpha_num() throws RecognitionException {
-		Alpha_numContext _localctx = new Alpha_numContext(_ctx, getState());
-		enterRule(_localctx, 40, RULE_alpha_num);
-		try {
-			setState(287);
-			switch (_input.LA(1)) {
-			case C:
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(285);
-				alpha();
-				}
-				break;
-			case NUM:
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(286);
-				digit();
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class AlphaContext extends ParserRuleContext {
-		public TerminalNode C() { return getToken(DecafParser.C, 0); }
-		public AlphaContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_alpha; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).enterAlpha(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).exitAlpha(this);
-		}
-	}
-
-	public final AlphaContext alpha() throws RecognitionException {
-		AlphaContext _localctx = new AlphaContext(_ctx, getState());
-		enterRule(_localctx, 42, RULE_alpha);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(289);
-			match(C);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class DigitContext extends ParserRuleContext {
-		public TerminalNode NUM() { return getToken(DecafParser.NUM, 0); }
-		public DigitContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_digit; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).enterDigit(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).exitDigit(this);
-		}
-	}
-
-	public final DigitContext digit() throws RecognitionException {
-		DigitContext _localctx = new DigitContext(_ctx, getState());
-		enterRule(_localctx, 44, RULE_digit);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(291);
-			match(NUM);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class Hex_digitContext extends ParserRuleContext {
-		public DigitContext digit() {
-			return getRuleContext(DigitContext.class,0);
-		}
-		public List<TerminalNode> C() { return getTokens(DecafParser.C); }
-		public TerminalNode C(int i) {
-			return getToken(DecafParser.C, i);
-		}
-		public Hex_digitContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_hex_digit; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).enterHex_digit(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).exitHex_digit(this);
-		}
-	}
-
-	public final Hex_digitContext hex_digit() throws RecognitionException {
-		Hex_digitContext _localctx = new Hex_digitContext(_ctx, getState());
-		enterRule(_localctx, 46, RULE_hex_digit);
-		int _la;
-		try {
-			setState(299);
-			switch (_input.LA(1)) {
-			case NUM:
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(293);
-				digit();
-				}
-				break;
-			case C:
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(295); 
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				do {
-					{
-					{
-					setState(294);
-					match(C);
-					}
-					}
-					setState(297); 
-					_errHandler.sync(this);
-					_la = _input.LA(1);
-				} while ( _la==C );
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class Int_literalContext extends ParserRuleContext {
-		public Decimal_literalContext decimal_literal() {
-			return getRuleContext(Decimal_literalContext.class,0);
-		}
-		public Hex_literalContext hex_literal() {
-			return getRuleContext(Hex_literalContext.class,0);
-		}
-		public Int_literalContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_int_literal; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).enterInt_literal(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).exitInt_literal(this);
-		}
-	}
-
-	public final Int_literalContext int_literal() throws RecognitionException {
-		Int_literalContext _localctx = new Int_literalContext(_ctx, getState());
-		enterRule(_localctx, 48, RULE_int_literal);
-		try {
-			setState(303);
-			switch (_input.LA(1)) {
-			case NUM:
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(301);
-				decimal_literal();
-				}
-				break;
-			case HEXLITERAL:
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(302);
-				hex_literal();
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class Decimal_literalContext extends ParserRuleContext {
-		public TerminalNode NUM() { return getToken(DecafParser.NUM, 0); }
-		public Decimal_literalContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_decimal_literal; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).enterDecimal_literal(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).exitDecimal_literal(this);
-		}
-	}
-
-	public final Decimal_literalContext decimal_literal() throws RecognitionException {
-		Decimal_literalContext _localctx = new Decimal_literalContext(_ctx, getState());
-		enterRule(_localctx, 50, RULE_decimal_literal);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(305);
-			match(NUM);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class Hex_literalContext extends ParserRuleContext {
-		public TerminalNode HEXLITERAL() { return getToken(DecafParser.HEXLITERAL, 0); }
-		public Hex_literalContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_hex_literal; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).enterHex_literal(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).exitHex_literal(this);
-		}
-	}
-
-	public final Hex_literalContext hex_literal() throws RecognitionException {
-		Hex_literalContext _localctx = new Hex_literalContext(_ctx, getState());
-		enterRule(_localctx, 52, RULE_hex_literal);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(307);
-			match(HEXLITERAL);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class Bool_literalContext extends ParserRuleContext {
-		public TerminalNode BOOLEANLITERAL() { return getToken(DecafParser.BOOLEANLITERAL, 0); }
-		public Bool_literalContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_bool_literal; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).enterBool_literal(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).exitBool_literal(this);
-		}
-	}
-
-	public final Bool_literalContext bool_literal() throws RecognitionException {
-		Bool_literalContext _localctx = new Bool_literalContext(_ctx, getState());
-		enterRule(_localctx, 54, RULE_bool_literal);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(309);
-			match(BOOLEANLITERAL);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class Char_literalContext extends ParserRuleContext {
-		public TerminalNode CHAR() { return getToken(DecafParser.CHAR, 0); }
-		public Char_literalContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_char_literal; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).enterChar_literal(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).exitChar_literal(this);
-		}
-	}
-
-	public final Char_literalContext char_literal() throws RecognitionException {
-		Char_literalContext _localctx = new Char_literalContext(_ctx, getState());
-		enterRule(_localctx, 56, RULE_char_literal);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(311);
-			match(CHAR);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class String_literalContext extends ParserRuleContext {
-		public TerminalNode STRING() { return getToken(DecafParser.STRING, 0); }
-		public String_literalContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_string_literal; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).enterString_literal(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DecafParserListener ) ((DecafParserListener)listener).exitString_literal(this);
-		}
-	}
-
-	public final String_literalContext string_literal() throws RecognitionException {
-		String_literalContext _localctx = new String_literalContext(_ctx, getState());
-		enterRule(_localctx, 58, RULE_string_literal);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(313);
-			match(STRING);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
 	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
 		case 12:
-			return expr_sempred((ExprContext)_localctx, predIndex);
+			return expr_decl_sempred((Expr_declContext)_localctx, predIndex);
 		}
 		return true;
 	}
-	private boolean expr_sempred(ExprContext _localctx, int predIndex) {
+	private boolean expr_decl_sempred(Expr_declContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0:
-			return precpred(_ctx, 4);
+			return precpred(_ctx, 7);
 		}
 		return true;
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\61\u013e\4\2\t\2"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\64\u0156\4\2\t\2"+
 		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
 		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
-		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
-		"\4\32\t\32\4\33\t\33\4\34\t\34\4\35\t\35\4\36\t\36\4\37\t\37\3\2\3\2\3"+
-		"\2\3\2\7\2C\n\2\f\2\16\2F\13\2\3\2\7\2I\n\2\f\2\16\2L\13\2\3\2\3\2\3\3"+
-		"\3\3\3\3\7\3S\n\3\f\3\16\3V\13\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
-		"\3\7\3b\n\3\f\3\16\3e\13\3\5\3g\n\3\3\3\3\3\3\4\3\4\5\4m\n\4\3\4\3\4\3"+
-		"\4\3\4\3\4\7\4t\n\4\f\4\16\4w\13\4\5\4y\n\4\3\4\3\4\3\4\3\5\3\5\7\5\u0080"+
-		"\n\5\f\5\16\5\u0083\13\5\3\5\7\5\u0086\n\5\f\5\16\5\u0089\13\5\3\5\3\5"+
-		"\3\6\3\6\3\6\7\6\u0090\n\6\f\6\16\6\u0093\13\6\3\6\3\6\3\7\3\7\3\7\3\7"+
-		"\7\7\u009b\n\7\f\7\16\7\u009e\13\7\3\b\3\b\3\t\3\t\3\t\3\t\3\t\3\t\3\t"+
-		"\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\5\t\u00b1\n\t\3\t\3\t\3\t\3\t\3\t\3\t"+
-		"\3\t\3\t\3\t\3\t\5\t\u00bd\n\t\3\t\3\t\3\t\3\t\3\t\3\t\5\t\u00c5\n\t\3"+
-		"\n\3\n\3\13\3\13\3\13\3\13\3\13\7\13\u00ce\n\13\f\13\16\13\u00d1\13\13"+
-		"\5\13\u00d3\n\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\7\13\u00de"+
-		"\n\13\f\13\16\13\u00e1\13\13\5\13\u00e3\n\13\3\13\5\13\u00e6\n\13\3\f"+
-		"\3\f\3\r\3\r\3\r\3\r\3\r\3\r\5\r\u00f0\n\r\3\16\3\16\3\16\3\16\3\16\3"+
-		"\16\3\16\3\16\3\16\3\16\3\16\3\16\5\16\u00fe\n\16\3\16\3\16\3\16\3\16"+
-		"\7\16\u0104\n\16\f\16\16\16\u0107\13\16\3\17\3\17\5\17\u010b\n\17\3\20"+
-		"\3\20\3\20\3\20\5\20\u0111\n\20\3\21\3\21\3\22\3\22\3\23\3\23\3\24\3\24"+
-		"\3\25\3\25\3\25\5\25\u011e\n\25\3\26\3\26\5\26\u0122\n\26\3\27\3\27\3"+
-		"\30\3\30\3\31\3\31\6\31\u012a\n\31\r\31\16\31\u012b\5\31\u012e\n\31\3"+
-		"\32\3\32\5\32\u0132\n\32\3\33\3\33\3\34\3\34\3\35\3\35\3\36\3\36\3\37"+
-		"\3\37\3\37\2\3\32 \2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60"+
-		"\62\64\668:<\2\b\3\2\n\13\4\2\27\27\37 \4\2\30\32\35\36\3\2$\'\4\2\34"+
-		"\34((\4\2\26\26\33\33\u014a\2>\3\2\2\2\4f\3\2\2\2\6l\3\2\2\2\b}\3\2\2"+
-		"\2\n\u008c\3\2\2\2\f\u0096\3\2\2\2\16\u009f\3\2\2\2\20\u00c4\3\2\2\2\22"+
-		"\u00c6\3\2\2\2\24\u00e5\3\2\2\2\26\u00e7\3\2\2\2\30\u00ef\3\2\2\2\32\u00fd"+
-		"\3\2\2\2\34\u010a\3\2\2\2\36\u0110\3\2\2\2 \u0112\3\2\2\2\"\u0114\3\2"+
-		"\2\2$\u0116\3\2\2\2&\u0118\3\2\2\2(\u011d\3\2\2\2*\u0121\3\2\2\2,\u0123"+
-		"\3\2\2\2.\u0125\3\2\2\2\60\u012d\3\2\2\2\62\u0131\3\2\2\2\64\u0133\3\2"+
-		"\2\2\66\u0135\3\2\2\28\u0137\3\2\2\2:\u0139\3\2\2\2<\u013b\3\2\2\2>?\7"+
-		"\t\2\2?@\7)\2\2@D\7\3\2\2AC\5\4\3\2BA\3\2\2\2CF\3\2\2\2DB\3\2\2\2DE\3"+
-		"\2\2\2EJ\3\2\2\2FD\3\2\2\2GI\5\6\4\2HG\3\2\2\2IL\3\2\2\2JH\3\2\2\2JK\3"+
-		"\2\2\2KM\3\2\2\2LJ\3\2\2\2MN\7\4\2\2N\3\3\2\2\2OT\5\f\7\2PQ\7\"\2\2QS"+
-		"\5\f\7\2RP\3\2\2\2SV\3\2\2\2TR\3\2\2\2TU\3\2\2\2Ug\3\2\2\2VT\3\2\2\2W"+
-		"X\5\f\7\2XY\7\5\2\2YZ\5\62\32\2Zc\7\6\2\2[\\\7\"\2\2\\]\5\f\7\2]^\7\5"+
-		"\2\2^_\5\62\32\2_`\7\6\2\2`b\3\2\2\2a[\3\2\2\2be\3\2\2\2ca\3\2\2\2cd\3"+
-		"\2\2\2dg\3\2\2\2ec\3\2\2\2fO\3\2\2\2fW\3\2\2\2gh\3\2\2\2hi\7!\2\2i\5\3"+
-		"\2\2\2jm\5\16\b\2km\7\f\2\2lj\3\2\2\2lk\3\2\2\2mn\3\2\2\2no\7)\2\2ox\7"+
-		"\7\2\2pu\5\f\7\2qr\7\"\2\2rt\5\f\7\2sq\3\2\2\2tw\3\2\2\2us\3\2\2\2uv\3"+
-		"\2\2\2vy\3\2\2\2wu\3\2\2\2xp\3\2\2\2xy\3\2\2\2yz\3\2\2\2z{\7\b\2\2{|\5"+
-		"\b\5\2|\7\3\2\2\2}\u0081\7\3\2\2~\u0080\5\n\6\2\177~\3\2\2\2\u0080\u0083"+
-		"\3\2\2\2\u0081\177\3\2\2\2\u0081\u0082\3\2\2\2\u0082\u0087\3\2\2\2\u0083"+
-		"\u0081\3\2\2\2\u0084\u0086\5\20\t\2\u0085\u0084\3\2\2\2\u0086\u0089\3"+
-		"\2\2\2\u0087\u0085\3\2\2\2\u0087\u0088\3\2\2\2\u0088\u008a\3\2\2\2\u0089"+
-		"\u0087\3\2\2\2\u008a\u008b\7\4\2\2\u008b\t\3\2\2\2\u008c\u0091\5\f\7\2"+
-		"\u008d\u008e\7\"\2\2\u008e\u0090\7)\2\2\u008f\u008d\3\2\2\2\u0090\u0093"+
-		"\3\2\2\2\u0091\u008f\3\2\2\2\u0091\u0092\3\2\2\2\u0092\u0094\3\2\2\2\u0093"+
-		"\u0091\3\2\2\2\u0094\u0095\7!\2\2\u0095\13\3\2\2\2\u0096\u0097\5\16\b"+
-		"\2\u0097\u009c\7)\2\2\u0098\u0099\7\"\2\2\u0099\u009b\7)\2\2\u009a\u0098"+
-		"\3\2\2\2\u009b\u009e\3\2\2\2\u009c\u009a\3\2\2\2\u009c\u009d\3\2\2\2\u009d"+
-		"\r\3\2\2\2\u009e\u009c\3\2\2\2\u009f\u00a0\t\2\2\2\u00a0\17\3\2\2\2\u00a1"+
-		"\u00a2\5\30\r\2\u00a2\u00a3\5\22\n\2\u00a3\u00a4\5\32\16\2\u00a4\u00a5"+
-		"\7!\2\2\u00a5\u00c5\3\2\2\2\u00a6\u00a7\5\24\13\2\u00a7\u00a8\7!\2\2\u00a8"+
-		"\u00c5\3\2\2\2\u00a9\u00aa\7\r\2\2\u00aa\u00ab\7\7\2\2\u00ab\u00ac\5\32"+
-		"\16\2\u00ac\u00ad\7\b\2\2\u00ad\u00b0\5\b\5\2\u00ae\u00af\7\16\2\2\u00af"+
-		"\u00b1\5\b\5\2\u00b0\u00ae\3\2\2\2\u00b0\u00b1\3\2\2\2\u00b1\u00c5\3\2"+
-		"\2\2\u00b2\u00b3\7\17\2\2\u00b3\u00b4\7)\2\2\u00b4\u00b5\7\27\2\2\u00b5"+
-		"\u00b6\5\32\16\2\u00b6\u00b7\7\"\2\2\u00b7\u00b8\5\32\16\2\u00b8\u00b9"+
-		"\5\b\5\2\u00b9\u00c5\3\2\2\2\u00ba\u00bc\7\20\2\2\u00bb\u00bd\5\32\16"+
-		"\2\u00bc\u00bb\3\2\2\2\u00bc\u00bd\3\2\2\2\u00bd\u00be\3\2\2\2\u00be\u00c5"+
-		"\7!\2\2\u00bf\u00c0\7\21\2\2\u00c0\u00c5\7!\2\2\u00c1\u00c2\7\23\2\2\u00c2"+
-		"\u00c5\7!\2\2\u00c3\u00c5\5\b\5\2\u00c4\u00a1\3\2\2\2\u00c4\u00a6\3\2"+
-		"\2\2\u00c4\u00a9\3\2\2\2\u00c4\u00b2\3\2\2\2\u00c4\u00ba\3\2\2\2\u00c4"+
-		"\u00bf\3\2\2\2\u00c4\u00c1\3\2\2\2\u00c4\u00c3\3\2\2\2\u00c5\21\3\2\2"+
-		"\2\u00c6\u00c7\t\3\2\2\u00c7\23\3\2\2\2\u00c8\u00c9\5\26\f\2\u00c9\u00d2"+
-		"\7\7\2\2\u00ca\u00cf\5\32\16\2\u00cb\u00cc\7\"\2\2\u00cc\u00ce\5\32\16"+
-		"\2\u00cd\u00cb\3\2\2\2\u00ce\u00d1\3\2\2\2\u00cf\u00cd\3\2\2\2\u00cf\u00d0"+
-		"\3\2\2\2\u00d0\u00d3\3\2\2\2\u00d1\u00cf\3\2\2\2\u00d2\u00ca\3\2\2\2\u00d2"+
-		"\u00d3\3\2\2\2\u00d3\u00d4\3\2\2\2\u00d4\u00d5\7\b\2\2\u00d5\u00e6\3\2"+
-		"\2\2\u00d6\u00d7\7\22\2\2\u00d7\u00d8\7\7\2\2\u00d8\u00e2\7-\2\2\u00d9"+
-		"\u00da\7\"\2\2\u00da\u00df\5\34\17\2\u00db\u00dc\7\"\2\2\u00dc\u00de\5"+
-		"\34\17\2\u00dd\u00db\3\2\2\2\u00de\u00e1\3\2\2\2\u00df\u00dd\3\2\2\2\u00df"+
-		"\u00e0\3\2\2\2\u00e0\u00e3\3\2\2\2\u00e1\u00df\3\2\2\2\u00e2\u00d9\3\2"+
-		"\2\2\u00e2\u00e3\3\2\2\2\u00e3\u00e4\3\2\2\2\u00e4\u00e6\7\b\2\2\u00e5"+
-		"\u00c8\3\2\2\2\u00e5\u00d6\3\2\2\2\u00e6\25\3\2\2\2\u00e7\u00e8\7)\2\2"+
-		"\u00e8\27\3\2\2\2\u00e9\u00f0\7)\2\2\u00ea\u00eb\7)\2\2\u00eb\u00ec\7"+
-		"\5\2\2\u00ec\u00ed\5\32\16\2\u00ed\u00ee\7\6\2\2\u00ee\u00f0\3\2\2\2\u00ef"+
-		"\u00e9\3\2\2\2\u00ef\u00ea\3\2\2\2\u00f0\31\3\2\2\2\u00f1\u00f2\b\16\1"+
-		"\2\u00f2\u00fe\5\30\r\2\u00f3\u00fe\5\24\13\2\u00f4\u00fe\5(\25\2\u00f5"+
-		"\u00f6\7\31\2\2\u00f6\u00fe\5\32\16\5\u00f7\u00f8\7\25\2\2\u00f8\u00fe"+
-		"\5\32\16\4\u00f9\u00fa\7\7\2\2\u00fa\u00fb\5\32\16\2\u00fb\u00fc\7\b\2"+
-		"\2\u00fc\u00fe\3\2\2\2\u00fd\u00f1\3\2\2\2\u00fd\u00f3\3\2\2\2\u00fd\u00f4"+
-		"\3\2\2\2\u00fd\u00f5\3\2\2\2\u00fd\u00f7\3\2\2\2\u00fd\u00f9\3\2\2\2\u00fe"+
-		"\u0105\3\2\2\2\u00ff\u0100\f\6\2\2\u0100\u0101\5\36\20\2\u0101\u0102\5"+
-		"\32\16\7\u0102\u0104\3\2\2\2\u0103\u00ff\3\2\2\2\u0104\u0107\3\2\2\2\u0105"+
-		"\u0103\3\2\2\2\u0105\u0106\3\2\2\2\u0106\33\3\2\2\2\u0107\u0105\3\2\2"+
-		"\2\u0108\u010b\5\32\16\2\u0109\u010b\5<\37\2\u010a\u0108\3\2\2\2\u010a"+
-		"\u0109\3\2\2\2\u010b\35\3\2\2\2\u010c\u0111\5 \21\2\u010d\u0111\5\"\22"+
-		"\2\u010e\u0111\5$\23\2\u010f\u0111\5&\24\2\u0110\u010c\3\2\2\2\u0110\u010d"+
-		"\3\2\2\2\u0110\u010e\3\2\2\2\u0110\u010f\3\2\2\2\u0111\37\3\2\2\2\u0112"+
-		"\u0113\t\4\2\2\u0113!\3\2\2\2\u0114\u0115\t\5\2\2\u0115#\3\2\2\2\u0116"+
-		"\u0117\t\6\2\2\u0117%\3\2\2\2\u0118\u0119\t\7\2\2\u0119\'\3\2\2\2\u011a"+
-		"\u011e\5\62\32\2\u011b\u011e\5:\36\2\u011c\u011e\58\35\2\u011d\u011a\3"+
-		"\2\2\2\u011d\u011b\3\2\2\2\u011d\u011c\3\2\2\2\u011e)\3\2\2\2\u011f\u0122"+
-		"\5,\27\2\u0120\u0122\5.\30\2\u0121\u011f\3\2\2\2\u0121\u0120\3\2\2\2\u0122"+
-		"+\3\2\2\2\u0123\u0124\7\61\2\2\u0124-\3\2\2\2\u0125\u0126\7\60\2\2\u0126"+
-		"/\3\2\2\2\u0127\u012e\5.\30\2\u0128\u012a\7\61\2\2\u0129\u0128\3\2\2\2"+
-		"\u012a\u012b\3\2\2\2\u012b\u0129\3\2\2\2\u012b\u012c\3\2\2\2\u012c\u012e"+
-		"\3\2\2\2\u012d\u0127\3\2\2\2\u012d\u0129\3\2\2\2\u012e\61\3\2\2\2\u012f"+
-		"\u0132\5\64\33\2\u0130\u0132\5\66\34\2\u0131\u012f\3\2\2\2\u0131\u0130"+
-		"\3\2\2\2\u0132\63\3\2\2\2\u0133\u0134\7\60\2\2\u0134\65\3\2\2\2\u0135"+
-		"\u0136\7.\2\2\u0136\67\3\2\2\2\u0137\u0138\7\24\2\2\u01389\3\2\2\2\u0139"+
-		"\u013a\7,\2\2\u013a;\3\2\2\2\u013b\u013c\7-\2\2\u013c=\3\2\2\2 DJTcfl"+
-		"ux\u0081\u0087\u0091\u009c\u00b0\u00bc\u00c4\u00cf\u00d2\u00df\u00e2\u00e5"+
-		"\u00ef\u00fd\u0105\u010a\u0110\u011d\u0121\u012b\u012d\u0131";
+		"\4\23\t\23\4\24\t\24\3\2\3\2\3\2\3\2\6\2-\n\2\r\2\16\2.\7\2\61\n\2\f\2"+
+		"\16\2\64\13\2\3\2\7\2\67\n\2\f\2\16\2:\13\2\3\2\3\2\3\3\3\3\5\3@\n\3\3"+
+		"\3\3\3\3\3\6\3E\n\3\r\3\16\3F\3\3\7\3J\n\3\f\3\16\3M\13\3\5\3O\n\3\3\3"+
+		"\3\3\3\3\3\4\3\4\7\4V\n\4\f\4\16\4Y\13\4\3\4\7\4\\\n\4\f\4\16\4_\13\4"+
+		"\3\4\3\4\3\5\3\5\3\5\7\5f\n\5\f\5\16\5i\13\5\7\5k\n\5\f\5\16\5n\13\5\3"+
+		"\5\5\5q\n\5\3\5\7\5t\n\5\f\5\16\5w\13\5\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3"+
+		"\b\3\b\3\t\3\t\3\t\3\t\7\t\u0086\n\t\f\t\16\t\u0089\13\t\3\t\7\t\u008c"+
+		"\n\t\f\t\16\t\u008f\13\t\3\t\3\t\7\t\u0093\n\t\f\t\16\t\u0096\13\t\3\t"+
+		"\7\t\u0099\n\t\f\t\16\t\u009c\13\t\3\t\3\t\3\t\7\t\u00a1\n\t\f\t\16\t"+
+		"\u00a4\13\t\3\t\3\t\3\t\3\t\5\t\u00aa\n\t\3\t\3\t\3\t\3\t\3\t\7\t\u00b1"+
+		"\n\t\f\t\16\t\u00b4\13\t\3\t\7\t\u00b7\n\t\f\t\16\t\u00ba\13\t\3\t\3\t"+
+		"\7\t\u00be\n\t\f\t\16\t\u00c1\13\t\3\t\3\t\3\t\3\t\5\t\u00c7\n\t\3\t\7"+
+		"\t\u00ca\n\t\f\t\16\t\u00cd\13\t\3\t\3\t\3\t\3\t\3\t\3\t\5\t\u00d5\n\t"+
+		"\3\n\3\n\3\13\3\13\3\13\3\13\3\13\7\13\u00de\n\13\f\13\16\13\u00e1\13"+
+		"\13\3\13\7\13\u00e4\n\13\f\13\16\13\u00e7\13\13\3\13\3\13\3\13\3\13\3"+
+		"\13\3\13\7\13\u00ef\n\13\f\13\16\13\u00f2\13\13\3\13\3\13\6\13\u00f6\n"+
+		"\13\r\13\16\13\u00f7\3\13\7\13\u00fb\n\13\f\13\16\13\u00fe\13\13\5\13"+
+		"\u0100\n\13\3\13\5\13\u0103\n\13\3\f\3\f\3\r\3\r\3\r\3\r\3\r\3\r\5\r\u010d"+
+		"\n\r\3\16\3\16\3\16\7\16\u0112\n\16\f\16\16\16\u0115\13\16\3\16\3\16\3"+
+		"\16\3\16\3\16\3\16\3\16\3\16\7\16\u011f\n\16\f\16\16\16\u0122\13\16\3"+
+		"\16\3\16\7\16\u0126\n\16\f\16\16\16\u0129\13\16\3\16\3\16\3\16\3\16\3"+
+		"\16\3\16\5\16\u0131\n\16\3\16\3\16\3\16\3\16\7\16\u0137\n\16\f\16\16\16"+
+		"\u013a\13\16\3\17\3\17\7\17\u013e\n\17\f\17\16\17\u0141\13\17\3\17\3\17"+
+		"\3\17\5\17\u0146\n\17\3\20\3\20\3\20\3\20\5\20\u014c\n\20\3\21\3\21\3"+
+		"\22\3\22\3\23\3\23\3\24\3\24\3\24\2\3\32\25\2\4\6\b\n\f\16\20\22\24\26"+
+		"\30\32\34\36 \"$&\2\b\3\2\f\r\4\2\31\31!\"\4\2\32\34\37 \3\2&)\4\2\36"+
+		"\36**\4\2\30\30\35\35\u017d\2(\3\2\2\2\4?\3\2\2\2\6S\3\2\2\2\bb\3\2\2"+
+		"\2\nx\3\2\2\2\f|\3\2\2\2\16\177\3\2\2\2\20\u00d4\3\2\2\2\22\u00d6\3\2"+
+		"\2\2\24\u0102\3\2\2\2\26\u0104\3\2\2\2\30\u010c\3\2\2\2\32\u0130\3\2\2"+
+		"\2\34\u0145\3\2\2\2\36\u014b\3\2\2\2 \u014d\3\2\2\2\"\u014f\3\2\2\2$\u0151"+
+		"\3\2\2\2&\u0153\3\2\2\2()\7\n\2\2)*\7\t\2\2*\62\7\3\2\2+-\5\b\5\2,+\3"+
+		"\2\2\2-.\3\2\2\2.,\3\2\2\2./\3\2\2\2/\61\3\2\2\2\60,\3\2\2\2\61\64\3\2"+
+		"\2\2\62\60\3\2\2\2\62\63\3\2\2\2\638\3\2\2\2\64\62\3\2\2\2\65\67\5\4\3"+
+		"\2\66\65\3\2\2\2\67:\3\2\2\28\66\3\2\2\289\3\2\2\29;\3\2\2\2:8\3\2\2\2"+
+		";<\7\4\2\2<\3\3\2\2\2=@\5\16\b\2>@\7\16\2\2?=\3\2\2\2?>\3\2\2\2@A\3\2"+
+		"\2\2AB\7+\2\2BN\7\7\2\2CE\5\b\5\2DC\3\2\2\2EF\3\2\2\2FD\3\2\2\2FG\3\2"+
+		"\2\2GK\3\2\2\2HJ\7\13\2\2IH\3\2\2\2JM\3\2\2\2KI\3\2\2\2KL\3\2\2\2LO\3"+
+		"\2\2\2MK\3\2\2\2ND\3\2\2\2NO\3\2\2\2OP\3\2\2\2PQ\7\b\2\2QR\5\6\4\2R\5"+
+		"\3\2\2\2SW\7\3\2\2TV\5\b\5\2UT\3\2\2\2VY\3\2\2\2WU\3\2\2\2WX\3\2\2\2X"+
+		"]\3\2\2\2YW\3\2\2\2Z\\\5\20\t\2[Z\3\2\2\2\\_\3\2\2\2][\3\2\2\2]^\3\2\2"+
+		"\2^`\3\2\2\2_]\3\2\2\2`a\7\4\2\2a\7\3\2\2\2bl\5\16\b\2cg\7+\2\2df\7\13"+
+		"\2\2ed\3\2\2\2fi\3\2\2\2ge\3\2\2\2gh\3\2\2\2hk\3\2\2\2ig\3\2\2\2jc\3\2"+
+		"\2\2kn\3\2\2\2lj\3\2\2\2lm\3\2\2\2mp\3\2\2\2nl\3\2\2\2oq\5\n\6\2po\3\2"+
+		"\2\2pq\3\2\2\2qu\3\2\2\2rt\7\13\2\2sr\3\2\2\2tw\3\2\2\2us\3\2\2\2uv\3"+
+		"\2\2\2v\t\3\2\2\2wu\3\2\2\2xy\7\5\2\2yz\7,\2\2z{\7\6\2\2{\13\3\2\2\2|"+
+		"}\5\16\b\2}~\7+\2\2~\r\3\2\2\2\177\u0080\t\2\2\2\u0080\17\3\2\2\2\u0081"+
+		"\u0082\5\30\r\2\u0082\u0083\5\22\n\2\u0083\u0087\5\32\16\2\u0084\u0086"+
+		"\7\b\2\2\u0085\u0084\3\2\2\2\u0086\u0089\3\2\2\2\u0087\u0085\3\2\2\2\u0087"+
+		"\u0088\3\2\2\2\u0088\u008d\3\2\2\2\u0089\u0087\3\2\2\2\u008a\u008c\7\13"+
+		"\2\2\u008b\u008a\3\2\2\2\u008c\u008f\3\2\2\2\u008d\u008b\3\2\2\2\u008d"+
+		"\u008e\3\2\2\2\u008e\u00d5\3\2\2\2\u008f\u008d\3\2\2\2\u0090\u0094\5\24"+
+		"\13\2\u0091\u0093\7\13\2\2\u0092\u0091\3\2\2\2\u0093\u0096\3\2\2\2\u0094"+
+		"\u0092\3\2\2\2\u0094\u0095\3\2\2\2\u0095\u009a\3\2\2\2\u0096\u0094\3\2"+
+		"\2\2\u0097\u0099\7\b\2\2\u0098\u0097\3\2\2\2\u0099\u009c\3\2\2\2\u009a"+
+		"\u0098\3\2\2\2\u009a\u009b\3\2\2\2\u009b\u00d5\3\2\2\2\u009c\u009a\3\2"+
+		"\2\2\u009d\u009e\7\17\2\2\u009e\u00a2\5\32\16\2\u009f\u00a1\7\b\2\2\u00a0"+
+		"\u009f\3\2\2\2\u00a1\u00a4\3\2\2\2\u00a2\u00a0\3\2\2\2\u00a2\u00a3\3\2"+
+		"\2\2\u00a3\u00a5\3\2\2\2\u00a4\u00a2\3\2\2\2\u00a5\u00a6\5\6\4\2\u00a6"+
+		"\u00a9\3\2\2\2\u00a7\u00a8\7\20\2\2\u00a8\u00aa\5\6\4\2\u00a9\u00a7\3"+
+		"\2\2\2\u00a9\u00aa\3\2\2\2\u00aa\u00d5\3\2\2\2\u00ab\u00ac\7\21\2\2\u00ac"+
+		"\u00ad\7+\2\2\u00ad\u00ae\7\31\2\2\u00ae\u00b2\5\32\16\2\u00af\u00b1\7"+
+		"\b\2\2\u00b0\u00af\3\2\2\2\u00b1\u00b4\3\2\2\2\u00b2\u00b0\3\2\2\2\u00b2"+
+		"\u00b3\3\2\2\2\u00b3\u00b8\3\2\2\2\u00b4\u00b2\3\2\2\2\u00b5\u00b7\7\13"+
+		"\2\2\u00b6\u00b5\3\2\2\2\u00b7\u00ba\3\2\2\2\u00b8\u00b6\3\2\2\2\u00b8"+
+		"\u00b9\3\2\2\2\u00b9\u00bb\3\2\2\2\u00ba\u00b8\3\2\2\2\u00bb\u00bf\5\32"+
+		"\16\2\u00bc\u00be\7\b\2\2\u00bd\u00bc\3\2\2\2\u00be\u00c1\3\2\2\2\u00bf"+
+		"\u00bd\3\2\2\2\u00bf\u00c0\3\2\2\2\u00c0\u00c2\3\2\2\2\u00c1\u00bf\3\2"+
+		"\2\2\u00c2\u00c3\5\6\4\2\u00c3\u00d5\3\2\2\2\u00c4\u00c6\7\22\2\2\u00c5"+
+		"\u00c7\5\32\16\2\u00c6\u00c5\3\2\2\2\u00c6\u00c7\3\2\2\2\u00c7\u00cb\3"+
+		"\2\2\2\u00c8\u00ca\7\b\2\2\u00c9\u00c8\3\2\2\2\u00ca\u00cd\3\2\2\2\u00cb"+
+		"\u00c9\3\2\2\2\u00cb\u00cc\3\2\2\2\u00cc\u00ce\3\2\2\2\u00cd\u00cb\3\2"+
+		"\2\2\u00ce\u00d5\7\13\2\2\u00cf\u00d0\7\23\2\2\u00d0\u00d5\7\13\2\2\u00d1"+
+		"\u00d2\7\25\2\2\u00d2\u00d5\7\13\2\2\u00d3\u00d5\5\6\4\2\u00d4\u0081\3"+
+		"\2\2\2\u00d4\u0090\3\2\2\2\u00d4\u009d\3\2\2\2\u00d4\u00ab\3\2\2\2\u00d4"+
+		"\u00c4\3\2\2\2\u00d4\u00cf\3\2\2\2\u00d4\u00d1\3\2\2\2\u00d4\u00d3\3\2"+
+		"\2\2\u00d5\21\3\2\2\2\u00d6\u00d7\t\3\2\2\u00d7\23\3\2\2\2\u00d8\u00d9"+
+		"\7+\2\2\u00d9\u00da\7\7\2\2\u00da\u00df\5\32\16\2\u00db\u00dc\7\13\2\2"+
+		"\u00dc\u00de\5\32\16\2\u00dd\u00db\3\2\2\2\u00de\u00e1\3\2\2\2\u00df\u00dd"+
+		"\3\2\2\2\u00df\u00e0\3\2\2\2\u00e0\u00e5\3\2\2\2\u00e1\u00df\3\2\2\2\u00e2"+
+		"\u00e4\7\b\2\2\u00e3\u00e2\3\2\2\2\u00e4\u00e7\3\2\2\2\u00e5\u00e3\3\2"+
+		"\2\2\u00e5\u00e6\3\2\2\2\u00e6\u00e8\3\2\2\2\u00e7\u00e5\3\2\2\2\u00e8"+
+		"\u00e9\7\b\2\2\u00e9\u0103\3\2\2\2\u00ea\u00eb\7\24\2\2\u00eb\u00ec\7"+
+		"\7\2\2\u00ec\u00ff\7\60\2\2\u00ed\u00ef\7\13\2\2\u00ee\u00ed\3\2\2\2\u00ef"+
+		"\u00f2\3\2\2\2\u00f0\u00ee\3\2\2\2\u00f0\u00f1\3\2\2\2\u00f1\u00f5\3\2"+
+		"\2\2\u00f2\u00f0\3\2\2\2\u00f3\u00f6\5\32\16\2\u00f4\u00f6\7\60\2\2\u00f5"+
+		"\u00f3\3\2\2\2\u00f5\u00f4\3\2\2\2\u00f6\u00f7\3\2\2\2\u00f7\u00f5\3\2"+
+		"\2\2\u00f7\u00f8\3\2\2\2\u00f8\u00fc\3\2\2\2\u00f9\u00fb\7\13\2\2\u00fa"+
+		"\u00f9\3\2\2\2\u00fb\u00fe\3\2\2\2\u00fc\u00fa\3\2\2\2\u00fc\u00fd\3\2"+
+		"\2\2\u00fd\u0100\3\2\2\2\u00fe\u00fc\3\2\2\2\u00ff\u00f0\3\2\2\2\u00ff"+
+		"\u0100\3\2\2\2\u0100\u0101\3\2\2\2\u0101\u0103\7\b\2\2\u0102\u00d8\3\2"+
+		"\2\2\u0102\u00ea\3\2\2\2\u0103\25\3\2\2\2\u0104\u0105\7+\2\2\u0105\27"+
+		"\3\2\2\2\u0106\u010d\7+\2\2\u0107\u0108\7+\2\2\u0108\u0109\7\5\2\2\u0109"+
+		"\u010a\5\32\16\2\u010a\u010b\7\6\2\2\u010b\u010d\3\2\2\2\u010c\u0106\3"+
+		"\2\2\2\u010c\u0107\3\2\2\2\u010d\31\3\2\2\2\u010e\u010f\b\16\1\2\u010f"+
+		"\u0113\5\30\r\2\u0110\u0112\7\7\2\2\u0111\u0110\3\2\2\2\u0112\u0115\3"+
+		"\2\2\2\u0113\u0111\3\2\2\2\u0113\u0114\3\2\2\2\u0114\u0131\3\2\2\2\u0115"+
+		"\u0113\3\2\2\2\u0116\u0131\5\24\13\2\u0117\u0131\5\34\17\2\u0118\u0119"+
+		"\7\33\2\2\u0119\u0131\5\32\16\b\u011a\u011b\7\27\2\2\u011b\u0131\5\32"+
+		"\16\7\u011c\u0120\5\36\20\2\u011d\u011f\5\32\16\2\u011e\u011d\3\2\2\2"+
+		"\u011f\u0122\3\2\2\2\u0120\u011e\3\2\2\2\u0120\u0121\3\2\2\2\u0121\u0131"+
+		"\3\2\2\2\u0122\u0120\3\2\2\2\u0123\u0127\7\13\2\2\u0124\u0126\5\32\16"+
+		"\2\u0125\u0124\3\2\2\2\u0126\u0129\3\2\2\2\u0127\u0125\3\2\2\2\u0127\u0128"+
+		"\3\2\2\2\u0128\u0131\3\2\2\2\u0129\u0127\3\2\2\2\u012a\u012b\7\b\2\2\u012b"+
+		"\u0131\7\13\2\2\u012c\u012d\7\7\2\2\u012d\u012e\5\32\16\2\u012e\u012f"+
+		"\7\b\2\2\u012f\u0131\3\2\2\2\u0130\u010e\3\2\2\2\u0130\u0116\3\2\2\2\u0130"+
+		"\u0117\3\2\2\2\u0130\u0118\3\2\2\2\u0130\u011a\3\2\2\2\u0130\u011c\3\2"+
+		"\2\2\u0130\u0123\3\2\2\2\u0130\u012a\3\2\2\2\u0130\u012c\3\2\2\2\u0131"+
+		"\u0138\3\2\2\2\u0132\u0133\f\t\2\2\u0133\u0134\5\36\20\2\u0134\u0135\5"+
+		"\32\16\n\u0135\u0137\3\2\2\2\u0136\u0132\3\2\2\2\u0137\u013a\3\2\2\2\u0138"+
+		"\u0136\3\2\2\2\u0138\u0139\3\2\2\2\u0139\33\3\2\2\2\u013a\u0138\3\2\2"+
+		"\2\u013b\u013f\7,\2\2\u013c\u013e\7,\2\2\u013d\u013c\3\2\2\2\u013e\u0141"+
+		"\3\2\2\2\u013f\u013d\3\2\2\2\u013f\u0140\3\2\2\2\u0140\u0146\3\2\2\2\u0141"+
+		"\u013f\3\2\2\2\u0142\u0146\7,\2\2\u0143\u0146\7/\2\2\u0144\u0146\7\26"+
+		"\2\2\u0145\u013b\3\2\2\2\u0145\u0142\3\2\2\2\u0145\u0143\3\2\2\2\u0145"+
+		"\u0144\3\2\2\2\u0146\35\3\2\2\2\u0147\u014c\5 \21\2\u0148\u014c\5\"\22"+
+		"\2\u0149\u014c\5$\23\2\u014a\u014c\5&\24\2\u014b\u0147\3\2\2\2\u014b\u0148"+
+		"\3\2\2\2\u014b\u0149\3\2\2\2\u014b\u014a\3\2\2\2\u014c\37\3\2\2\2\u014d"+
+		"\u014e\t\4\2\2\u014e!\3\2\2\2\u014f\u0150\t\5\2\2\u0150#\3\2\2\2\u0151"+
+		"\u0152\t\6\2\2\u0152%\3\2\2\2\u0153\u0154\t\7\2\2\u0154\'\3\2\2\2,.\62"+
+		"8?FKNW]glpu\u0087\u008d\u0094\u009a\u00a2\u00a9\u00b2\u00b8\u00bf\u00c6"+
+		"\u00cb\u00d4\u00df\u00e5\u00f0\u00f5\u00f7\u00fc\u00ff\u0102\u010c\u0113"+
+		"\u0120\u0127\u0130\u0138\u013f\u0145\u014b";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
